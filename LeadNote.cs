@@ -9,20 +9,20 @@ namespace MuseSynthesis
 
         int drum; // What drum pitch to use
         int tupletdiv; // How many notes per 128th note
-        double notelength;
+        double notevalue;
 
         string note; // Name of represented note
         double freq; // Frequency to be obtained
         double tempo; // The eventual tempo command that needs to be set
         int length; // How many notes should be written, rounded down to tuplets in the place of one 128th note
 
-        public LeadNote(ScoreWriter writer, string note)
+        public LeadNote(ScoreWriter writer, string note, string value)
         {
             this.writer = writer;
             this.note = note;
             drum = 41; // Later to be variable
             tupletdiv = 4; // Later to be variable
-            notelength = (double)1/4; // Later to be variable
+            notevalue = ReadNoteValue(value);
 
             freq = CalcFreq(); // Calculate required frequency of sound
             tempo = CalcTempo();
@@ -80,6 +80,18 @@ namespace MuseSynthesis
                 XmlElement endtuplet = creator.CreateElement("endTuplet");
                 writer.AppendChild(endtuplet);
             }
+        }
+        // Gets the note value from a string fraction
+        private double ReadNoteValue(string fraction)
+        {
+            string[] fractionparts = fraction.Split('/');
+            int numerator, denominator;
+            numerator = int.Parse(fractionparts[0]);
+            if (fractionparts.Length > 1)
+                denominator = int.Parse(fractionparts[1]);
+            else
+                denominator = 1; // For multiples of whole notes
+            return (double)numerator / denominator;
         }
 
         // Calculates frequency that note should have (currently always according to equal temperament)
@@ -154,7 +166,7 @@ namespace MuseSynthesis
         {
             double ratio = tempo / writer.tempo; // Ratio of actual bpm versus perceived bpm
             double notespmeas = tupletdiv * 128; // Amount of notes per measure
-            double notes = notespmeas * ratio * notelength; // Exact amount of notes needed
+            double notes = notespmeas * ratio * notevalue; // Exact amount of notes needed
             int tuplets = (int)Math.Round(notes / tupletdiv);
             return tuplets;
         }

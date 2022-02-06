@@ -5,12 +5,25 @@
 	</metaTags>
 	<score>
 		<tempo>110</tempo>
-		<tuning>435</tuning>
 		<leadnote>
 			<note>A3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>Bx3</note>
+			<note>B3</note>
+			<value>1/24</value>
+		</leadnote>
+		<leadnote>
+			<note>B#3</note>
+			<value>1/24</value>
+		</leadnote>
+		<leadnote>
+			<note>B3</note>
+			<value>1/24</value>
+		</leadnote>
+		<leadnote>
+			<note>A3</note>
+			<value>3/16</value>
 		</leadnote>
 	</score>
 </museSynthesis>
