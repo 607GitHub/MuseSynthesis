@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<museSynthesis>
+	<metaTags>
+		<arranger></arranger>
+	</metaTags>
+	<score>
+		<tempo>110</tempo>
+		<tuning>435</tuning>
+		<leadnote>
+			<note>A3</note>
+		</leadnote>
+		<leadnote>
+			<note>Bx3</note>
+		</leadnote>
+	</score>
+</museSynthesis>
