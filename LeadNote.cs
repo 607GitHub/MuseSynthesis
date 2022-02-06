@@ -161,7 +161,7 @@ namespace MuseSynthesis
             return bpm;
         }
 
-        // Calculates exactly how many notes would be needed, based on the actual tempo and the effective tempo
+        // Calculates how many tuples are needed, based on the actual tempo and the effective tempo
         private int CalcLength()
         {
             double ratio = tempo / writer.tempo; // Ratio of actual bpm versus perceived bpm
