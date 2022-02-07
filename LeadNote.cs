@@ -17,6 +17,7 @@ namespace MuseSynthesis
         int length; // How many notes should be written, rounded down to tuplets in the place of one 128th note
 
         bool portamento; // Whether to glide to another tone
+        string targetnote; // Only to display in the tempotext
         double portfactor; // If to glide, with what factor to multiply the frequency
 
         public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects)
@@ -42,7 +43,10 @@ namespace MuseSynthesis
             XmlElement tempotag = creator.CreateElement("tempo");
             tempotag.InnerText = (tempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture); // In MuseScore, 120 bpm is internally represented as 2
             XmlElement texttag = creator.CreateElement("text");
-            texttag.InnerText = note; // We display the note played instead of the tempo, as that's much more useful for a reader
+            string tempotext = note; // We display the note played instead of the tempo, as that's much more useful for a reader
+            if (portamento)
+                tempotext += " → " + targetnote;
+            texttag.InnerText = tempotext; 
             settempo.AppendChild(tempotag);
             settempo.AppendChild(texttag);
             writer.AppendChild(settempo);
@@ -55,6 +59,14 @@ namespace MuseSynthesis
             // Write all tuplets
             for (int tuplet = 0; tuplet < length; tuplet++)
             {
+                // For portamento we need to write a new tempo command for every tuplet
+                settempo = creator.CreateElement("Tempo");
+                tempotag = creator.CreateElement("tempo");
+                double currenttempo = tempo * Math.Pow(portfactor, tuplet);
+                tempotag.InnerText = (currenttempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                settempo.AppendChild(tempotag);
+                writer.AppendChild(settempo);
+
                 XmlElement maketuplet = creator.CreateElement("Tuplet");
                 XmlElement normalnotestag = creator.CreateElement("normalNotes");
                 normalnotestag.InnerText = tupletdiv.ToString();
@@ -97,10 +109,10 @@ namespace MuseSynthesis
             if (portnode != null)
             {
                 portamento = true;
-                string goalnotetag = portnode.SelectSingleNode("goalnote").InnerText;
-                LeadNote goalnote = new LeadNote(writer, goalnotetag, "1", null); // Creating a new LeadNote is an easy way to calculate the goal tempo
+                targetnote = portnode.SelectSingleNode("goalnote").InnerText;
+                LeadNote goalnote = new LeadNote(writer, targetnote, "1", null); // Creating a new LeadNote is an easy way to calculate the goal tempo
                 double goaltempo = goalnote.tempo;
-                int steps = this.length;
+                int steps = this.length - 1; // At the first note we don't yet increase the tempo, so to arrive in time we need to use one less step
                 double tempoincrease = goaltempo / tempo;
                 portfactor = Math.Pow(tempoincrease, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
             }
