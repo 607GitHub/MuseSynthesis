@@ -6,24 +6,13 @@
 	<score>
 		<tempo>110</tempo>
 		<leadnote>
-			<note>A3</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadnote>
-			<note>B3</note>
-			<value>1/24</value>
-		</leadnote>
-		<leadnote>
-			<note>B#3</note>
-			<value>1/24</value>
-		</leadnote>
-		<leadnote>
-			<note>B3</note>
-			<value>1/24</value>
-		</leadnote>
-		<leadnote>
-			<note>A3</note>
-			<value>3/16</value>
+			<note>C0</note>
+			<value>8</value>
+			<effects>
+				<portamento>
+					<goalnote>C6</goalnote>
+				</portamento>
+			</effects>
 		</leadnote>
 	</score>
 </museSynthesis>

@@ -16,7 +16,10 @@ namespace MuseSynthesis
         double tempo; // The eventual tempo command that needs to be set
         int length; // How many notes should be written, rounded down to tuplets in the place of one 128th note
 
-        public LeadNote(ScoreWriter writer, string note, string value)
+        bool portamento; // Whether to glide to another tone
+        double portfactor; // If to glide, with what factor to multiply the frequency
+
+        public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects)
         {
             this.writer = writer;
             this.note = note;
@@ -27,6 +30,8 @@ namespace MuseSynthesis
             freq = CalcFreq(); // Calculate required frequency of sound
             tempo = CalcTempo();
             length = CalcLength();
+
+            ActivateEffects(effects);
         }
 
         // Writes the required XML for this lead note
@@ -81,6 +86,28 @@ namespace MuseSynthesis
                 writer.AppendChild(endtuplet);
             }
         }
+
+        // Checks effects node (might not exist) to see what effects to apply, and sets them up
+        private void ActivateEffects(XmlNode effects)
+        {
+            portamento = false;
+            if (effects == null)
+                return;
+            XmlNode portnode = effects.SelectSingleNode("portamento");
+            if (portnode != null)
+            {
+                portamento = true;
+                string goalnotetag = portnode.SelectSingleNode("goalnote").InnerText;
+                LeadNote goalnote = new LeadNote(writer, goalnotetag, "1", null); // Creating a new LeadNote is an easy way to calculate the goal tempo
+                double goaltempo = goalnote.tempo;
+                int steps = this.length;
+                double tempoincrease = goaltempo / tempo;
+                portfactor = Math.Pow(tempoincrease, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
+            }
+
+            return;
+        }
+
         // Gets the note value from a string fraction
         private double ReadNoteValue(string fraction)
         {

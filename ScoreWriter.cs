@@ -41,7 +41,8 @@ namespace MuseSynthesis
                     case "leadnote":
                         string note = current.SelectSingleNode("note").InnerText;
                         string value = current.SelectSingleNode("value").InnerText;
-                        LeadNote leadnote = new LeadNote(this, note, value);
+                        XmlNode effects = current.SelectSingleNode("effects");
+                        LeadNote leadnote = new LeadNote(this, note, value, effects);
                         leadnote.Write();
                         break;
 
