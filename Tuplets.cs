@@ -46,10 +46,25 @@ namespace MuseSynthesis
             // Write all tuplets
             for (int tuplet = 0; tuplet < length; tuplet++)
             {
-                // For portamento we need to write a new tempo command for every tuplet
+                double currenttempo = starttempo;
+                if (portamento)
+                {
+                    currenttempo = starttempo * Math.Pow(portfactor, tuplet);
+                    // We need to calculate how often a tuplet of this speed would fit in the time of a tuplet at the original speed
+                    int tupletratio = (int)Math.Round(currenttempo / starttempo);
+                    if (tupletratio > 1) // If this is greater than 1, we need to make more tuplets that interpolate
+                    {
+                        double targettempo = currenttempo * portfactor;
+                        Tuplets moretuplets = new Tuplets(writer, tupletratio, currenttempo, drum, tupletdiv, notevalue, true, targettempo, false);
+                        moretuplets.Write();
+                        continue; // If we let the lower Tuplets write, we shouldn't write here too
+                    }
+                }
+
+                // To deal with portamento we need to write a new tempo command for every tuplet
                 XmlElement settempo = creator.CreateElement("Tempo");
                 XmlElement tempotag = creator.CreateElement("tempo");
-                double currenttempo = starttempo * Math.Pow(portfactor, tuplet);
+                
                 tempotag.InnerText = (currenttempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 settempo.AppendChild(tempotag);
                 writer.AppendChild(settempo);
