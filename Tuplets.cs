@@ -24,18 +24,19 @@ namespace MuseSynthesis
         double portfactor;
         bool outerportamento; // Whether this is the Tuplets spanning the entire leadnote; matters for the calculation
 
-        public Tuplets(ScoreWriter writer, int length, double starttempo, bool portamento, int drum, int tupletdiv, string notevalue, bool outerportamento)
+        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int tupletdiv, string notevalue, bool portamento, double goaltempo, bool outerportamento)
         {
             this.writer = writer;
             this.length = length;
             this.starttempo = starttempo;
             this.drum = drum;
             this.tupletdiv = tupletdiv;
-            this.portamento = portamento;
             this.notevalue = notevalue;
+            this.portamento = portamento;
+            this.goaltempo = goaltempo;
             this.outerportamento = outerportamento;
 
-
+            portfactor = CalcPortfactor(); // Will be 1 if there is no portamento effect, and the factor that each tuplet should increase the tempo with otherwise
         }
 
         public void Write()
@@ -45,8 +46,6 @@ namespace MuseSynthesis
             // Write all tuplets
             for (int tuplet = 0; tuplet < length; tuplet++)
             {
-                portfactor = 1; // We will calculate portamento here, but first let's see if it works without
-
                 // For portamento we need to write a new tempo command for every tuplet
                 XmlElement settempo = creator.CreateElement("Tempo");
                 XmlElement tempotag = creator.CreateElement("tempo");
@@ -85,6 +84,18 @@ namespace MuseSynthesis
                 XmlElement endtuplet = creator.CreateElement("endTuplet");
                 writer.AppendChild(endtuplet);
             }
+        }
+
+        public double CalcPortfactor()
+        {
+            if (!portamento)
+                return 1;
+            int steps = length;
+            if (outerportamento) // If this is the outer portamento, we need to do the increase in one less step, because...
+                steps--;         // at the first note we don't yet increase the tempo, and at the last note we do need to be at the end
+            double tempoincrease = goaltempo / starttempo;
+            portfactor = Math.Pow(tempoincrease, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
+            return portfactor;
         }
     }
 }

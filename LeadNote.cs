@@ -19,6 +19,7 @@ namespace MuseSynthesis
         bool portamento; // Whether to glide to another tone
         string targetnote; // Only to display in the tempotext
         double portfactor; // If to glide, with what factor to multiply the frequency
+        double goaltempo; // Where to go with portamento
 
         public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects)
         {
@@ -57,7 +58,7 @@ namespace MuseSynthesis
             string notevalue = notevaluenumber.ToString() + "th";
 
             // The Tuplets object will handle the rest of the writing for us
-            Tuplets tuplets = new Tuplets(writer, length, tempo, portamento, drum, tupletdiv, notevalue, true);
+            Tuplets tuplets = new Tuplets(writer, length, tempo, drum, tupletdiv, notevalue, true, goaltempo, true);
             tuplets.Write();
         }
 
@@ -73,12 +74,8 @@ namespace MuseSynthesis
                 portamento = true;
                 targetnote = portnode.SelectSingleNode("goalnote").InnerText;
                 LeadNote goalnote = new LeadNote(writer, targetnote, "1", null); // Creating a new LeadNote is an easy way to calculate the goal tempo
-                double goaltempo = goalnote.tempo;
-                int steps = this.length - 1; // At the first note we don't yet increase the tempo, so to arrive in time we need to use one less step
-                double tempoincrease = goaltempo / tempo;
-                portfactor = Math.Pow(tempoincrease, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
+                goaltempo = goalnote.tempo;
             }
-
             return;
         }
 

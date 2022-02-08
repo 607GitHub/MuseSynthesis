@@ -6,12 +6,13 @@
 	<score>
 		<tempo>120</tempo>
 		<leadnote>
-			<note>F5</note>
-			<value>1/4</value>
-		</leadnote>
-		<leadnote>
-			<note>A#4</note>
-			<value>1/4</value>
+			<note>C0</note>
+			<value>8</value>
+			<effects>
+				<portamento>
+					<goalnote>C5</goalnote>
+				</portamento>
+			</effects>
 		</leadnote>
 	</score>
 </museSynthesis>
