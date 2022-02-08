@@ -56,47 +56,9 @@ namespace MuseSynthesis
             int notevaluenumber = 128 * (int)Math.Pow(2, log2div);
             string notevalue = notevaluenumber.ToString() + "th";
 
-            // Write all tuplets
-            for (int tuplet = 0; tuplet < length; tuplet++)
-            {
-                // For portamento we need to write a new tempo command for every tuplet
-                settempo = creator.CreateElement("Tempo");
-                tempotag = creator.CreateElement("tempo");
-                double currenttempo = tempo * Math.Pow(portfactor, tuplet);
-                tempotag.InnerText = (currenttempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                settempo.AppendChild(tempotag);
-                writer.AppendChild(settempo);
-
-                XmlElement maketuplet = creator.CreateElement("Tuplet");
-                XmlElement normalnotestag = creator.CreateElement("normalNotes");
-                normalnotestag.InnerText = tupletdiv.ToString();
-                XmlElement actualnotestag = creator.CreateElement("actualNotes");
-                actualnotestag.InnerText = tupletdiv.ToString();
-                XmlElement basenotetag = creator.CreateElement("baseNote");
-                basenotetag.InnerText = notevalue;
-                maketuplet.AppendChild(normalnotestag);
-                maketuplet.AppendChild(actualnotestag);
-                maketuplet.AppendChild(basenotetag);
-                writer.AppendChild(maketuplet);
-
-                // Write all notes for a tuplet
-                for (int note = 0; note < tupletdiv; note++)
-                {
-                    XmlElement makechord = creator.CreateElement("Chord"); // Not sure why the tag is called chord, but following it here for consistency
-                    XmlElement durationtypetag = creator.CreateElement("durationType");
-                    durationtypetag.InnerText = notevalue;
-                    XmlElement makenote = creator.CreateElement("Note");
-                    XmlElement pitchtag = creator.CreateElement("pitch");
-                    pitchtag.InnerText = drum.ToString();
-                    makenote.AppendChild(pitchtag);
-                    makechord.AppendChild(durationtypetag);
-                    makechord.AppendChild(makenote);
-                    writer.AppendChild(makechord);
-                }
-
-                XmlElement endtuplet = creator.CreateElement("endTuplet");
-                writer.AppendChild(endtuplet);
-            }
+            // The Tuplets object will handle the rest of the writing for us
+            Tuplets tuplets = new Tuplets(writer, length, tempo, portamento, drum, tupletdiv, notevalue, true);
+            tuplets.Write();
         }
 
         // Checks effects node (might not exist) to see what effects to apply, and sets them up

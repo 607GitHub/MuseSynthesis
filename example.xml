@@ -4,15 +4,14 @@
 		<arranger></arranger>
 	</metaTags>
 	<score>
-		<tempo>110</tempo>
+		<tempo>120</tempo>
 		<leadnote>
-			<note>C0</note>
-			<value>8</value>
-			<effects>
-				<portamento>
-					<goalnote>C6</goalnote>
-				</portamento>
-			</effects>
+			<note>F5</note>
+			<value>1/4</value>
+		</leadnote>
+		<leadnote>
+			<note>A#4</note>
+			<value>1/4</value>
 		</leadnote>
 	</score>
 </museSynthesis>
