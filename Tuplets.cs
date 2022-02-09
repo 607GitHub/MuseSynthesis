@@ -20,11 +20,12 @@ namespace MuseSynthesis
 
         // Portamento effect
         bool portamento;
-        double goaltempo;
+        double mintempo, // We need to keep track of min and max, because regardless of the direction of the portamento...
+            maxtempo;    // the length that a Tuplets gets initialised with should be equal to the minimum tempo
         double portfactor;
         bool outerportamento; // Whether this is the Tuplets spanning the entire leadnote; matters for the calculation
 
-        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int tupletdiv, string notevalue, bool portamento, double goaltempo, bool outerportamento)
+        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int tupletdiv, string notevalue, bool portamento, double mintempo, double maxtempo, bool outerportamento)
         {
             this.writer = writer;
             this.length = length;
@@ -33,7 +34,8 @@ namespace MuseSynthesis
             this.tupletdiv = tupletdiv;
             this.notevalue = notevalue;
             this.portamento = portamento;
-            this.goaltempo = goaltempo;
+            this.mintempo = mintempo;
+            this.maxtempo = maxtempo;
             this.outerportamento = outerportamento;
 
             portfactor = CalcPortfactor(); // Will be 1 if there is no portamento effect, and the factor that each tuplet should increase the tempo with otherwise
@@ -50,12 +52,14 @@ namespace MuseSynthesis
                 if (portamento)
                 {
                     currenttempo = starttempo * Math.Pow(portfactor, tuplet);
-                    // We need to calculate how often a tuplet of this speed would fit in the time of a tuplet at the original speed
-                    int tupletratio = (int)Math.Round(currenttempo / starttempo);
+                    // We need to calculate how often a tuplet of this speed would fit in the time of a tuplet at the lowest (assumed) speed
+                    int tupletratio = (int)Math.Round(currenttempo / mintempo);
                     if (tupletratio > 1) // If this is greater than 1, we need to make more tuplets that interpolate
                     {
                         double targettempo = currenttempo * portfactor;
-                        Tuplets moretuplets = new Tuplets(writer, tupletratio, currenttempo, drum, tupletdiv, notevalue, true, targettempo, false);
+                        double newmin = Math.Min(currenttempo, targettempo);
+                        double newmax = Math.Max(currenttempo, targettempo);
+                        Tuplets moretuplets = new Tuplets(writer, tupletratio, currenttempo, drum, tupletdiv, notevalue, true, newmin, newmax, false);
                         moretuplets.Write();
                         continue; // If we let the lower Tuplets write, we shouldn't write here too
                     }
@@ -113,8 +117,13 @@ namespace MuseSynthesis
             int steps = length;
             if (outerportamento) // If this is the outer portamento, we need to do the increase in one less step, because...
                 steps--;         // at the first note we don't yet increase the tempo, and at the last note we do need to be at the end
-            double tempoincrease = goaltempo / starttempo;
-            portfactor = Math.Pow(tempoincrease, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
+            double goaltempo;
+            if (starttempo == mintempo)
+                goaltempo = maxtempo;
+            else
+                goaltempo = mintempo;
+            double tempochange = goaltempo / starttempo;
+            portfactor = Math.Pow(tempochange, 1.0 / steps); // We need to multiply rather than add, because pitch is experienced logarithmically
             return portfactor;
         }
     }

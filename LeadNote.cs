@@ -12,14 +12,16 @@ namespace MuseSynthesis
         double notevalue;
 
         string note; // Name of represented note
+        string notevaluetext; // Note value in text
         double freq; // Frequency to be obtained
         double tempo; // The eventual tempo command that needs to be set
         int length; // How many notes should be written, rounded down to tuplets in the place of one 128th note
 
         bool portamento; // Whether to glide to another tone
         string targetnote; // Only to display in the tempotext
-        double portfactor; // If to glide, with what factor to multiply the frequency
-        double goaltempo; // Where to go with portamento
+        double mintempo, // We always need to calculate the length based on the min tempo, because we can add more tuples later...
+            maxtempo;    // but not remove them
+        int minlength;
 
         public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects)
         {
@@ -27,11 +29,13 @@ namespace MuseSynthesis
             this.note = note;
             drum = 41; // Later to be variable
             tupletdiv = 4; // Later to be variable
-            notevalue = ReadNoteValue(value);
+            notevaluetext = value; // We access this again in ActivateEffects
+            notevalue = ReadNoteValue(notevaluetext);
 
             freq = CalcFreq(); // Calculate required frequency of sound
             tempo = CalcTempo();
             length = CalcLength();
+            minlength = length; mintempo = tempo; maxtempo = tempo; // Will be reset in case of portamento
 
             ActivateEffects(effects);
         }
@@ -58,7 +62,7 @@ namespace MuseSynthesis
             string notevalue = notevaluenumber.ToString() + "th";
 
             // The Tuplets object will handle the rest of the writing for us
-            Tuplets tuplets = new Tuplets(writer, length, tempo, drum, tupletdiv, notevalue, portamento, goaltempo, true);
+            Tuplets tuplets = new Tuplets(writer, minlength, tempo, drum, tupletdiv, notevalue, portamento, mintempo, maxtempo, true);
             tuplets.Write();
         }
 
@@ -73,8 +77,20 @@ namespace MuseSynthesis
             {
                 portamento = true;
                 targetnote = portnode.SelectSingleNode("goalnote").InnerText;
-                LeadNote goalnote = new LeadNote(writer, targetnote, "1", null); // Creating a new LeadNote is an easy way to calculate the goal tempo
-                goaltempo = goalnote.tempo;
+                LeadNote goalnote = new LeadNote(writer, targetnote, notevaluetext, null); // Creating a new LeadNote is an easy way to calculate the goal tempo and length
+                double goaltempo = goalnote.tempo;
+                if (goaltempo > tempo) // Portamento upwards
+                {
+                    mintempo = tempo;
+                    maxtempo = goaltempo;
+                    minlength = length;
+                }
+                else // Portamento downwards
+                {
+                    mintempo = goaltempo;
+                    maxtempo = tempo;
+                    minlength = goalnote.length;
+                }
             }
             return;
         }
