@@ -22,14 +22,13 @@ namespace MuseSynthesis
                 path = args[0];
             input.Load(path);
 
-            UpdateMetaTags(output, input);
-
             ScoreWriter scorewriter = new ScoreWriter(output, input);
+            scorewriter.UpdateMetaTags();
             scorewriter.WriteScore();
 
             // Write output XML
             string outputname; // Can be specified, will be the date otherwise
-            string directory = ""; // Can be specified, otherwise the same as the input
+            string directory; // Can be specified, otherwise the same as the input
             if (args.Length > 1)
             {
                 outputname = args[1];
@@ -50,22 +49,6 @@ namespace MuseSynthesis
             output.Save(directory + "/" + outputname + ".mscx");
 
             return 1;
-        }
-
-        // Update specified metaTags
-        static void UpdateMetaTags(XmlDocument score, XmlDocument input)
-        {
-            XmlNodeList metatags = score.SelectNodes("/museScore/Score/metaTag");
-            for (int tag = 0; tag < metatags.Count; tag++)
-            {
-                XmlElement metatag = (XmlElement)metatags[tag];
-                string attribute = metatag.GetAttribute("name");
-                XmlNode target = input.SelectSingleNode("/museSynthesis/metaTags/" + attribute);
-                if (target != null)
-                {
-                    metatags[tag].InnerText = target.InnerText;
-                }
-            }
         }
     }
 }

@@ -4,7 +4,7 @@
 		<preference name ="displaytempos">true</preference>
 	</preferences>
 	<metaTags>
-		<arranger></arranger>
+		<arranger>test</arranger>
 	</metaTags>
 	<score>
 		<tempo>120</tempo>

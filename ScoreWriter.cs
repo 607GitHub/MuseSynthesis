@@ -65,7 +65,7 @@ namespace MuseSynthesis
             outputnode.AppendChild(child);
         }
 
-        public void SetPreferences()
+        internal void SetPreferences()
         {
             // Set default preferences
             displaytempos = false;
@@ -86,6 +86,22 @@ namespace MuseSynthesis
                             Console.WriteLine("You specified a non-supported preference: " + preference);
                             break;
                     }
+                }
+            }
+        }
+
+        // Update specified metaTags
+        public void UpdateMetaTags()
+        {
+            XmlNodeList metatags = output.SelectNodes("/museScore/Score/metaTag");
+            for (int tag = 0; tag < metatags.Count; tag++)
+            {
+                XmlElement metatag = (XmlElement)metatags[tag];
+                string attribute = metatag.GetAttribute("name");
+                XmlNode target = input.SelectSingleNode("/museSynthesis/metaTags/" + attribute);
+                if (target != null)
+                {
+                    metatags[tag].InnerText = target.InnerText;
                 }
             }
         }
