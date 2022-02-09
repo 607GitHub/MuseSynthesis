@@ -1,18 +1,28 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <museSynthesis>
+	<preferences>
+		<preference name ="displaytempos">true</preference>
+	</preferences>
 	<metaTags>
 		<arranger></arranger>
 	</metaTags>
 	<score>
 		<tempo>120</tempo>
 		<leadnote>
-			<note>C0</note>
-			<value>8</value>
-			<effects>
-				<portamento>
-					<goalnote>C7</goalnote>
-				</portamento>
-			</effects>
+			<note>G3</note>
+			<value>1/2</value>
+		</leadnote>
+		<leadnote>
+			<note>C3</note>
+			<value>1/2</value>
+		</leadnote>
+		<leadnote>
+			<note>C4</note>
+			<value>1/2</value>
+		</leadnote>
+		<leadnote>
+			<note>G4</note>
+			<value>1/2</value>
 		</leadnote>
 	</score>
 </museSynthesis>

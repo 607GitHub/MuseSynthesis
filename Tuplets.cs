@@ -65,10 +65,13 @@ namespace MuseSynthesis
                 XmlElement settempo = creator.CreateElement("Tempo");
                 XmlElement tempotag = creator.CreateElement("tempo");
                 tempotag.InnerText = (currenttempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                XmlElement texttag = creator.CreateElement("text");
-                texttag.InnerText = ""; // To prevent MuseScore from generating a tempotag, which doesn't look good and might slow down the renderer
-                settempo.AppendChild(texttag);
                 settempo.AppendChild(tempotag);
+                if (!writer.displaytempos)
+                {
+                    XmlElement texttag = creator.CreateElement("text");
+                    texttag.InnerText = ""; // To prevent MuseScore from generating a tempotag; nice for debugging but doesn't look good, and might slow down the renderer
+                    settempo.AppendChild(texttag);
+                }
                 writer.AppendChild(settempo);
 
                 XmlElement maketuplet = creator.CreateElement("Tuplet");
