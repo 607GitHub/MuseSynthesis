@@ -58,7 +58,7 @@ namespace MuseSynthesis
             string notevalue = notevaluenumber.ToString() + "th";
 
             // The Tuplets object will handle the rest of the writing for us
-            Tuplets tuplets = new Tuplets(writer, length, tempo, drum, tupletdiv, notevalue, true, goaltempo, true);
+            Tuplets tuplets = new Tuplets(writer, length, tempo, drum, tupletdiv, notevalue, portamento, goaltempo, true);
             tuplets.Write();
         }
 
