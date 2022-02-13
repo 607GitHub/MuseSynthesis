@@ -10,6 +10,8 @@
 			<pageWidth>8.27</pageWidth>
 			<pageHeight>11.69</pageHeight>
 			<enableVerticalSpread>1</enableVerticalSpread>
+			<measureSpacing>1</measureSpacing>
+			<lastSystemFillLimit>1</lastSystemFillLimit>
 			<Spatium>1.74978</Spatium>
 		</Style>
 		<showInvisible>1</showInvisible>
@@ -326,7 +328,7 @@
 			<Measure>
 				<voice>
 					<TimeSig>
-						<sigN>4</sigN>
+						<sigN>1000</sigN>
 						<sigD>4</sigD>
 					</TimeSig>
 				</voice>
