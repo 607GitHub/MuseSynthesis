@@ -35,6 +35,8 @@ namespace MuseSynthesis
             IEnumerator inputenumerator = scoreinput.GetEnumerator();
             while (inputenumerator.MoveNext())
             {
+                if (inputenumerator.Current.GetType() == typeof(System.Xml.XmlComment)) // Don't try to process comments
+                    continue;
                 XmlElement current = (XmlElement)inputenumerator.Current;
                 switch (current.Name) // Take action depending on tag name
                 {
