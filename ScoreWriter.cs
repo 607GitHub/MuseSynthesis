@@ -9,6 +9,7 @@ namespace MuseSynthesis
     {
         private XmlDocument input; // Document to read from
         private XmlDocument output; // Document to write to
+        private int voices; // Amount of voices
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
         public int[] drums { get; private set; } // The drum sounds for each voice to use
@@ -19,9 +20,10 @@ namespace MuseSynthesis
         {
             this.output = output;
             this.input = input;
+            voices = 1; // Program should later support multiple voices
             tempo = 120; // Default effective tempo; can be changed by command
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
-            drums = new int[1]; // Program might later manage multiple voices; for now the array will be one-dimensional
+            drums = new int[voices];
             drums[0] = 41; // Default drum; can be changed by command
 
             SetPreferences();
