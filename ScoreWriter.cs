@@ -70,7 +70,7 @@ namespace MuseSynthesis
             // Set default preferences
             displaytempos = false;
 
-            XmlNodeList preferences = input.SelectNodes("/museSynthesis/preferences/preference");
+            XmlNodeList preferences = input.SelectNodes("/museSynthesis/preference");
             foreach (XmlElement preferencetag in preferences)
             {
                 if (preferencetag.InnerText == "true")
@@ -94,11 +94,13 @@ namespace MuseSynthesis
         public void UpdateMetaTags()
         {
             XmlNodeList metatags = output.SelectNodes("/museScore/Score/metaTag");
-            for (int tag = 0; tag < metatags.Count; tag++)
+
+            for (int tag = 0; tag < metatags.Count; tag++) // Go through all metatags listed in default.xml
             {
                 XmlElement metatag = (XmlElement)metatags[tag];
-                string attribute = metatag.GetAttribute("name");
-                XmlNode target = input.SelectSingleNode("/museSynthesis/metaTags/" + attribute);
+                string setting = metatag.GetAttribute("name");
+                XmlNodeList test = input.SelectNodes("/museSynthesis/metaTag");
+                XmlNode target = input.SelectSingleNode("/museSynthesis/metaTag[@name='"+setting+"']"); // Select that metatag if it exists
                 if (target != null)
                 {
                     metatags[tag].InnerText = target.InnerText;

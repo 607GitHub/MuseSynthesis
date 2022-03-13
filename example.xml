@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <museSynthesis>
-	<preferences>
-		<preference name ="displaytempos">true</preference>
-	</preferences>
-	<metaTags>
-		<arranger></arranger>
-	</metaTags>
+	<preference name ="displaytempos">true</preference>
+	<metaTag name ="arranger">607</metaTag>
+
 	<score>
 		<tempo>140</tempo>
+		<tuning>425</tuning>
+		
 		<leadnote>
 			<note>G4</note>
 			<value>1/4</value>
