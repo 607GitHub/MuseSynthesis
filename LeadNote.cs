@@ -27,7 +27,7 @@ namespace MuseSynthesis
         {
             this.writer = writer;
             this.note = note;
-            drum = 41; // Later to be variable
+            drum = writer.drums[0];
             tupletdiv = 4; // Later to be variable
             notevaluetext = value; // We access this again in ActivateEffects
             notevalue = ReadNoteValue(notevaluetext);

@@ -11,6 +11,7 @@ namespace MuseSynthesis
         private XmlDocument output; // Document to write to
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
+        public int[] drums { get; private set; } // The drum sounds for each voice to use
 
         public bool displaytempos { get; private set; } // Whether to let MuseScore display the extra tempo commands; looks messy, but better for debugging
 
@@ -20,6 +21,8 @@ namespace MuseSynthesis
             this.input = input;
             tempo = 120; // Default effective tempo; can be changed by command
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
+            drums = new int[1]; // Program might later manage multiple voices; for now the array will be one-dimensional
+            drums[0] = 41; // Default drum; can be changed by command
 
             SetPreferences();
         }
@@ -32,7 +35,7 @@ namespace MuseSynthesis
             IEnumerator inputenumerator = scoreinput.GetEnumerator();
             while (inputenumerator.MoveNext())
             {
-                XmlNode current = (XmlNode)inputenumerator.Current;
+                XmlElement current = (XmlElement)inputenumerator.Current;
                 switch (current.Name) // Take action depending on tag name
                 {
                     case "tempo":
@@ -41,6 +44,11 @@ namespace MuseSynthesis
 
                     case "tuning":
                         a4tuning = int.Parse(current.InnerText);
+                        break;
+
+                    case "drum":
+                        int voice = int.Parse(current.GetAttribute("voice"));
+                        drums[voice] = int.Parse(current.InnerText);
                         break;
 
                     case "leadnote":

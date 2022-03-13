@@ -1,127 +1,51 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <museSynthesis>
-	<preference name ="displaytempos">true</preference>
+	<preference name ="displaytempos">false</preference>
 	<metaTag name ="arranger">607</metaTag>
 
 	<score>
-		<tempo>140</tempo>
-		<tuning>425</tuning>
-		
+		<tempo>120</tempo>
+		<tuning>440</tuning>
+		<drum voice="0">35</drum>
 		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
+			<note>G3</note>
+			<value>3/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C4</note>
-			<value>1/4</value>
+			<note>D3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
+			<note>C3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C4</note>
-			<value>1/4</value>
+			<note>D3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>G4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>C4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>C4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>G4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>C4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>C4</note>
+			<note>G2</note>
 			<value>1/4</value>
 		</leadnote>
+		<drum voice="0">41</drum>
 		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
+			<note>G3</note>
+			<value>3/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C4</note>
-			<value>1/4</value>
+			<note>D3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
+			<note>C3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>C5</goalnote>
-				</portamento>
-			</effects>
+			<note>D3</note>
+			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C5</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>G4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>C5</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>C5</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>G4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>G4</note>
-			<value>1/4</value>
-			<effects>
-				<portamento>
-					<goalnote>C4</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
-		<leadnote>
-			<note>C4</note>
+			<note>G2</note>
 			<value>1/4</value>
 		</leadnote>
 	</score>
