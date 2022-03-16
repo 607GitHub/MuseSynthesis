@@ -107,7 +107,7 @@ namespace MuseSynthesis
 
                 XmlElement endtuplet = creator.CreateElement("endTuplet");
                 writer.AppendChild(endtuplet);
-                writer.CountIncrease();
+                writer.CountIncrease(1);
             }
         }
 

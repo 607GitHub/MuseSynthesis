@@ -13,7 +13,7 @@ namespace MuseSynthesis
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
         public int[] drums { get; private set; } // The drum sounds for each voice to use
-        private int tupletcount; // Keeps track of how many tuplets have been written, to decide on the time signature
+        private int songlength; // Keeps track of the total length of the notes and rests written, to decide on the time signature
 
         public bool displaytempos { get; private set; } // Whether to let MuseScore display the extra tempo commands; looks messy, but better for debugging
 
@@ -33,7 +33,7 @@ namespace MuseSynthesis
         // Write the score from the input
         public void WriteScore()
         {
-            tupletcount = 0;
+            songlength = 0;
 
             // We will read through all commands from top to bottom
             XmlNode scoreinput = input.SelectSingleNode("/museSynthesis/score");
@@ -59,12 +59,22 @@ namespace MuseSynthesis
                         break;
 
                     case "leadnote":
-                        string note = current.SelectSingleNode("note").InnerText;
+                        {
+                            string note = current.SelectSingleNode("note").InnerText;
+                            string value = current.SelectSingleNode("value").InnerText;
+                            XmlNode effects = current.SelectSingleNode("effects");
+                            LeadNote leadnote = new LeadNote(this, note, value, effects);
+                            leadnote.Write();
+                            break;
+                        }
+
+                    case "leadrest":
+                        { 
                         string value = current.SelectSingleNode("value").InnerText;
-                        XmlNode effects = current.SelectSingleNode("effects");
-                        LeadNote leadnote = new LeadNote(this, note, value, effects);
-                        leadnote.Write();
+                        LeadRest leadrest = new LeadRest(this, value);
+                        leadrest.Write();
                         break;
+                        }
 
                     default:
                         throw new ScoreWriterException("You used a non-supported node name: " + current.Name);
@@ -72,7 +82,7 @@ namespace MuseSynthesis
             }
 
             // Decide on time signature
-            int quarternotes = tupletcount / 32 + 1; // 32 128th notes fit in one quarter note
+            int quarternotes = songlength / 32 + 1; // 32 128th notes fit in one quarter note
             for (int voice = 0; voice < voices; voice++) // Set the time signature for each voice (0-indexed as usual)
             {
                 XmlNode timesig = output.SelectSingleNode("/museScore/Score/Staff[@id='" + (voice + 1) + "']/Measure/voice/TimeSig");
@@ -131,9 +141,10 @@ namespace MuseSynthesis
             }
         }
 
-        public void CountIncrease()
+        // Increases song length in 128th notes with the specified increase
+        public void CountIncrease(int increase)
         {
-            tupletcount++;
+            songlength += increase;
         }
     }
 }

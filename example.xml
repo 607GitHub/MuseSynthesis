@@ -8,45 +8,26 @@
 		<tuning>440</tuning>
 		<drum voice="0">35</drum>
 		<leadnote>
-			<note>G3</note>
-			<value>3/8</value>
-		</leadnote>
-		<leadnote>
-			<note>D3</note>
+			<note>D4</note>
 			<value>1/8</value>
 		</leadnote>
-		<leadnote>
-			<note>C3</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadnote>
-			<note>D3</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadnote>
-			<note>G2</note>
+		<leadrest>
 			<value>1/4</value>
-		</leadnote>
-		<drum voice="0">41</drum>
+		</leadrest>
 		<leadnote>
-			<note>G3</note>
-			<value>3/8</value>
-		</leadnote>
-		<leadnote>
-			<note>D3</note>
+			<note>B3</note>
 			<value>1/8</value>
 		</leadnote>
 		<leadnote>
-			<note>C3</note>
+			<note>D4</note>
 			<value>1/8</value>
 		</leadnote>
+		<leadrest>
+			<value>1/16</value>
+		</leadrest>
 		<leadnote>
-			<note>D3</note>
+			<note>D4</note>
 			<value>1/8</value>
-		</leadnote>
-		<leadnote>
-			<note>G2</note>
-			<value>1/4</value>
 		</leadnote>
 	</score>
 </museSynthesis>

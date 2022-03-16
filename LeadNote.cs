@@ -2,8 +2,8 @@
 using System.Xml;
 
 namespace MuseSynthesis
-{
-    internal class LeadNote
+{   // Class that does calculations for lead notes from input, and writes them to the ScoreWriter
+    internal class LeadNote : NoteRest
     {
         ScoreWriter writer; // So that we can access more general settings here
 
@@ -93,19 +93,6 @@ namespace MuseSynthesis
                 }
             }
             return;
-        }
-
-        // Gets the note value from a string fraction
-        private double ReadNoteValue(string fraction)
-        {
-            string[] fractionparts = fraction.Split('/');
-            int numerator, denominator;
-            numerator = int.Parse(fractionparts[0]);
-            if (fractionparts.Length > 1)
-                denominator = int.Parse(fractionparts[1]);
-            else
-                denominator = 1; // For multiples of whole notes
-            return (double)numerator / denominator;
         }
 
         // Calculates frequency that note should have (currently always according to equal temperament)
