@@ -12,21 +12,31 @@
 			<value>1/8</value>
 		</leadnote>
 		<leadrest>
-			<value>1/4</value>
+			<value>1/2</value>
 		</leadrest>
 		<leadnote>
-			<note>B3</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadnote>
-			<note>D4</note>
+			<note>E4</note>
 			<value>1/8</value>
 		</leadnote>
 		<leadrest>
-			<value>1/16</value>
+			<value>1/8</value>
 		</leadrest>
 		<leadnote>
-			<note>D4</note>
+			<note>F4</note>
+			<value>1/8</value>
+		</leadnote>
+		<leadrest>
+			<value>3/8</value>
+		</leadrest>
+		<leadnote>
+			<note>G4</note>
+			<value>1/8</value>
+		</leadnote>
+		<leadrest>
+			<value>9/128</value>
+		</leadrest>
+		<leadnote>
+			<note>A4</note>
 			<value>1/8</value>
 		</leadnote>
 	</score>

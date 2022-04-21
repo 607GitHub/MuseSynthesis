@@ -44,15 +44,33 @@ namespace MuseSynthesis
             }
             while (scribendum >= 16)
             {
-                durationtag.InnerText = "eigth";
+                durationtag.InnerText = "eighth";
                 writer.AppendChild(makerest);
                 scribendum -= 16;
             }
             while (scribendum >= 8)
             {
-                durationtag.InnerText = "sixteenth";
+                durationtag.InnerText = "16th";
                 writer.AppendChild(makerest);
                 scribendum -= 8;
+            }
+            while (scribendum >= 4)
+            {
+                durationtag.InnerText = "32nd";
+                writer.AppendChild(makerest);
+                scribendum -= 4;
+            }
+            while (scribendum >= 2)
+            {
+                durationtag.InnerText = "64th";
+                writer.AppendChild(makerest);
+                scribendum -= 2;
+            }
+            while (scribendum >= 1)
+            {
+                durationtag.InnerText = "128th";
+                writer.AppendChild(makerest);
+                scribendum -= 1;
             }
 
             writer.CountIncrease(restlength);
