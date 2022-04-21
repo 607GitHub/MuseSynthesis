@@ -30,49 +30,41 @@ namespace MuseSynthesis
             XmlElement makerest = creator.CreateElement("Rest");
             XmlElement durationtag = creator.CreateElement("durationType");
             makerest.AppendChild(durationtag); // We can reuse the same Elements while writing
-            while (scribendum >= 64) // Might start with whole rests later, but those are more complex because they involve measures
+            while (scribendum > 0)
             {
-                durationtag.InnerText = "half";
+                int log = (int)Math.Log2(scribendum); // Calculate required rest size
+                string restname;
+                switch (log)
+                {
+                    //case < 0:
+                    case 0:
+                        restname = "128th";
+                        break;
+                    case 1:
+                        restname = "64th";
+                        break;
+                    case 2:
+                        restname = "32nd";
+                        break;
+                    case 3:
+                        restname = "16th";
+                        break;
+                    case 4:
+                        restname = "eighth";
+                        break;
+                    case 5:
+                        restname = "quarter";
+                        break;
+                    default: // Half rests are the biggest we add. Might start with whole rests later, but those are more complex because they involve measures
+                        restname = "half";
+                        log = 6;
+                        break;
+                }
+                durationtag.InnerText = restname;
                 writer.AppendChild(makerest);
-                scribendum -= 64;
+                scribendum -= (int)Math.Pow(2, log);
             }
-            while (scribendum >= 32)
-            {
-                durationtag.InnerText = "quarter";
-                writer.AppendChild(makerest);
-                scribendum -= 32;
-            }
-            while (scribendum >= 16)
-            {
-                durationtag.InnerText = "eighth";
-                writer.AppendChild(makerest);
-                scribendum -= 16;
-            }
-            while (scribendum >= 8)
-            {
-                durationtag.InnerText = "16th";
-                writer.AppendChild(makerest);
-                scribendum -= 8;
-            }
-            while (scribendum >= 4)
-            {
-                durationtag.InnerText = "32nd";
-                writer.AppendChild(makerest);
-                scribendum -= 4;
-            }
-            while (scribendum >= 2)
-            {
-                durationtag.InnerText = "64th";
-                writer.AppendChild(makerest);
-                scribendum -= 2;
-            }
-            while (scribendum >= 1)
-            {
-                durationtag.InnerText = "128th";
-                writer.AppendChild(makerest);
-                scribendum -= 1;
-            }
-
+ 
             writer.CountIncrease(restlength);
         }
 
