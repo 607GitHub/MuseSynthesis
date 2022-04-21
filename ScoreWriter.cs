@@ -9,7 +9,7 @@ namespace MuseSynthesis
     {
         private XmlDocument input; // Document to read from
         private XmlDocument output; // Document to write to
-        private int voices; // Amount of voices
+        public int voices { get; private set; } // Amount of voices
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
         public int[] drums { get; private set; } // The drum sounds for each voice to use
@@ -21,7 +21,7 @@ namespace MuseSynthesis
         {
             this.output = output;
             this.input = input;
-            voices = 1; // Program should later support multiple voices
+            voices = 2; // Program should later support multiple voices
             tempo = 120; // Default effective tempo; can be changed by command
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
             drums = new int[voices];
@@ -63,7 +63,8 @@ namespace MuseSynthesis
                             string note = current.SelectSingleNode("note").InnerText;
                             string value = current.SelectSingleNode("value").InnerText;
                             XmlNode effects = current.SelectSingleNode("effects");
-                            LeadNote leadnote = new LeadNote(this, note, value, effects);
+                            XmlNode harmony = current.SelectSingleNode("harmony");
+                            LeadNote leadnote = new LeadNote(this, note, value, effects, harmony);
                             leadnote.Write();
                             break;
                         }

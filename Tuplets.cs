@@ -15,7 +15,7 @@ namespace MuseSynthesis
         int length; // Amount of tuplets
         double starttempo; // When not doing a portamento, this will remain the tempo
         int drum; // What drum pitch to use
-        int tupletdiv; // How many notes per 128th note
+        int[] tupletdiv; // How many notes per 128th note
         string notevalue;
 
         // Portamento effect
@@ -25,7 +25,7 @@ namespace MuseSynthesis
         double portfactor;
         bool outerportamento; // Whether this is the Tuplets spanning the entire leadnote; matters for the calculation
 
-        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int tupletdiv, string notevalue, bool portamento, double mintempo, double maxtempo, bool outerportamento)
+        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int[] tupletdiv, string notevalue, bool portamento, double mintempo, double maxtempo, bool outerportamento)
         {
             this.writer = writer;
             this.length = length;
@@ -78,11 +78,13 @@ namespace MuseSynthesis
                 }
                 writer.AppendChild(settempo);
 
+                // Make lead tuplet
+
                 XmlElement maketuplet = creator.CreateElement("Tuplet");
                 XmlElement normalnotestag = creator.CreateElement("normalNotes");
-                normalnotestag.InnerText = tupletdiv.ToString();
+                normalnotestag.InnerText = tupletdiv[0].ToString();
                 XmlElement actualnotestag = creator.CreateElement("actualNotes");
-                actualnotestag.InnerText = tupletdiv.ToString();
+                actualnotestag.InnerText = tupletdiv[0].ToString();
                 XmlElement basenotetag = creator.CreateElement("baseNote");
                 basenotetag.InnerText = notevalue;
                 maketuplet.AppendChild(normalnotestag);
@@ -90,8 +92,8 @@ namespace MuseSynthesis
                 maketuplet.AppendChild(basenotetag);
                 writer.AppendChild(maketuplet);
 
-                // Write all notes for a tuplet
-                for (int note = 0; note < tupletdiv; note++)
+                // Write all notes for lead tuplet
+                for (int note = 0; note < tupletdiv[0]; note++)
                 {
                     XmlElement makechord = creator.CreateElement("Chord"); // Not sure why the tag is called chord, but following it here for consistency
                     XmlElement durationtypetag = creator.CreateElement("durationType");
@@ -107,6 +109,9 @@ namespace MuseSynthesis
 
                 XmlElement endtuplet = creator.CreateElement("endTuplet");
                 writer.AppendChild(endtuplet);
+
+
+
                 writer.CountIncrease(1);
             }
         }

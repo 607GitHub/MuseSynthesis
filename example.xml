@@ -7,37 +7,14 @@
 		<tempo>120</tempo>
 		<tuning>440</tuning>
 		<drum voice="0">35</drum>
+		<drum voice="1">35</drum>
 		<leadnote>
-			<note>D4</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadrest>
+			<note>C4</note>
 			<value>1/2</value>
-		</leadrest>
-		<leadnote>
-			<note>E4</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadrest>
-			<value>1/8</value>
-		</leadrest>
-		<leadnote>
-			<note>F4</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadrest>
-			<value>3/8</value>
-		</leadrest>
-		<leadnote>
-			<note>G4</note>
-			<value>1/8</value>
-		</leadnote>
-		<leadrest>
-			<value>9/128</value>
-		</leadrest>
-		<leadnote>
-			<note>A4</note>
-			<value>1/8</value>
+			<harmony>
+				<div>4</div> 
+				<harmdiv voice="1">2</harmdiv>
+			</harmony>
 		</leadnote>
 	</score>
 </museSynthesis>

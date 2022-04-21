@@ -8,7 +8,7 @@ namespace MuseSynthesis
         ScoreWriter writer; // So that we can access more general settings here
 
         int drum; // What drum pitch to use
-        int tupletdiv; // How many notes per 128th note
+        int[] tupletdiv; // How many notes per 128th note for each voice (0 if rest)
         double notevalue;
 
         string note; // Name of represented note
@@ -23,14 +23,15 @@ namespace MuseSynthesis
             maxtempo;    // but not remove them
         int minlength;
 
-        public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects)
+        public LeadNote(ScoreWriter writer, string note, string value, XmlNode effects, XmlNode harmony)
         {
             this.writer = writer;
             this.note = note;
             drum = writer.drums[0];
-            tupletdiv = 4; // Later to be variable
             notevaluetext = value; // We access this again in ActivateEffects
             notevalue = ReadNoteValue(notevaluetext);
+
+            ProcessHarmony(harmony);
 
             freq = CalcFreq(); // Calculate required frequency of sound
             tempo = CalcTempo();
@@ -57,7 +58,7 @@ namespace MuseSynthesis
             writer.AppendChild(settempo);
 
             // Calculating the value that the individual notes have
-            int log2div = (int)Math.Log2(tupletdiv); // We have to round down to a power of 2
+            int log2div = (int)Math.Log2(tupletdiv[0]); // We have to round down to a power of 2
             int notevaluenumber = 128 * (int)Math.Pow(2, log2div);
             string notevalue = notevaluenumber.ToString() + "th";
 
@@ -77,7 +78,7 @@ namespace MuseSynthesis
             {
                 portamento = true;
                 targetnote = portnode.SelectSingleNode("goalnote").InnerText;
-                LeadNote goalnote = new LeadNote(writer, targetnote, notevaluetext, null); // Creating a new LeadNote is an easy way to calculate the goal tempo and length
+                LeadNote goalnote = new LeadNote(writer, targetnote, notevaluetext, null, null); // Creating a new LeadNote is an easy way to calculate the goal tempo and length
                 double goaltempo = goalnote.tempo;
                 if (goaltempo > tempo) // Portamento upwards
                 {
@@ -93,6 +94,30 @@ namespace MuseSynthesis
                 }
             }
             return;
+        }
+
+        // Checks harmony node (might not exist) and sets up required divisions
+        private void ProcessHarmony(XmlNode harmony)
+        {
+            tupletdiv = new int[writer.voices];
+            if (harmony == null) // If no harmony is presesnt
+            {
+                tupletdiv[0] = 4; // Lead voice divided in 4 by default
+                for (int voice = 1; voice < writer.voices; voice++) // The other voices shall rest
+                    tupletdiv[voice] = 0;
+                return;
+            }
+            // If harmony is present
+            tupletdiv[0] = int.Parse(harmony.SelectSingleNode("div").InnerText); // Set division of lead note
+            for (int voice = 1; voice < writer.voices; voice++) // Set divisions of other notes
+            {
+                XmlNode harmdiv = harmony.SelectSingleNode("harmdiv[@voice='" + voice + "']"); // Select harmdiv node for voice if it exists
+                if (harmdiv == null)
+                    tupletdiv[voice] = 0;
+                else
+                    tupletdiv[voice] = int.Parse(harmdiv.InnerText);
+            }
+
         }
 
         // Calculates frequency that note should have (currently always according to equal temperament)
@@ -157,7 +182,7 @@ namespace MuseSynthesis
         private double CalcTempo()
         {
             double notespmin = freq * 60; // From vibrations per second to notes per minute
-            double notespbeat = tupletdiv * (128 / 4); // Amount of notes per beat
+            double notespbeat = tupletdiv[0] * (128 / 4); // Amount of notes per beat
             double bpm = notespmin / notespbeat;
             return bpm;
         }
@@ -166,9 +191,9 @@ namespace MuseSynthesis
         private int CalcLength()
         {
             double ratio = tempo / writer.tempo; // Ratio of actual bpm versus perceived bpm
-            double notespmeas = tupletdiv * 128; // Amount of notes per measure
+            double notespmeas = tupletdiv[0] * 128; // Amount of notes per measure
             double notes = notespmeas * ratio * notevalue; // Exact amount of notes needed
-            int tuplets = (int)Math.Round(notes / tupletdiv);
+            int tuplets = (int)Math.Round(notes / tupletdiv[0]);
             return tuplets;
         }
     }
