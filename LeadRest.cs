@@ -36,7 +36,7 @@ namespace MuseSynthesis
                 string restname;
                 switch (log)
                 {
-                    //case < 0:
+                    // It would be nice to let the user know rests smaller than 1/128th aren't supported, but we cannot easily do that as restlength is already converted to int
                     case 0:
                         restname = "128th";
                         break;
