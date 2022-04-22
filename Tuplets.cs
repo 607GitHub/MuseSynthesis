@@ -76,7 +76,7 @@ namespace MuseSynthesis
                     texttag.InnerText = ""; // To prevent MuseScore from generating a tempotag; nice for debugging but doesn't look good, and might slow down the renderer
                     settempo.AppendChild(texttag);
                 }
-                writer.AppendChild(settempo);
+                writer.AppendChild(settempo,0);
 
                 // Make lead tuplet
 
@@ -90,7 +90,7 @@ namespace MuseSynthesis
                 maketuplet.AppendChild(normalnotestag);
                 maketuplet.AppendChild(actualnotestag);
                 maketuplet.AppendChild(basenotetag);
-                writer.AppendChild(maketuplet);
+                writer.AppendChild(maketuplet,0);
 
                 // Write all notes for lead tuplet
                 for (int note = 0; note < tupletdiv[0]; note++)
@@ -104,13 +104,23 @@ namespace MuseSynthesis
                     makenote.AppendChild(pitchtag);
                     makechord.AppendChild(durationtypetag);
                     makechord.AppendChild(makenote);
-                    writer.AppendChild(makechord);
+                    writer.AppendChild(makechord,0);
                 }
 
                 XmlElement endtuplet = creator.CreateElement("endTuplet");
-                writer.AppendChild(endtuplet);
+                writer.AppendChild(endtuplet,0);
 
+                // Write harmony
+                for (int voice = 1; voice < writer.voices; voice++)
+                {
+                    // Write rest
+                    XmlElement makerest = creator.CreateElement("Rest");
+                    XmlElement durationtag = creator.CreateElement("durationType");
+                    durationtag.InnerText = "128th";
+                    makerest.AppendChild(durationtag);
 
+                    writer.AppendChild(makerest, voice);
+                }
 
                 writer.CountIncrease(1);
             }

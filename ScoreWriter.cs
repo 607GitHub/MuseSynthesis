@@ -21,14 +21,60 @@ namespace MuseSynthesis
         {
             this.output = output;
             this.input = input;
-            voices = 2; // Program should later support multiple voices
+ 
             tempo = 120; // Default effective tempo; can be changed by command
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
+            SetupVoices();
             drums = new int[voices];
             drums[0] = 41; // Default drum; can be changed by command
 
             SetPreferences();
         }
+
+        // Reads required amount of voices and sets up parts and staves for them
+        private void SetupVoices()
+        {
+            XmlNode voices = input.SelectSingleNode("/museSynthesis/voices");
+            if (voices == null)
+                throw new ScoreWriterException("Please specify the amount of voices required.");
+            this.voices = int.Parse(voices.InnerText);
+
+
+            XmlNode outputscore = output.SelectSingleNode("/museScore/Score"); // Attach parts and staves to here
+
+            // Adding parts
+            for (int voice = 1; voice < this.voices; voice++) // First part is already in default.xml
+            {
+                XmlNode makepart = outputscore.SelectSingleNode("Part").Clone(); // Clone part node
+                // Set correct voice id
+                XmlElement makestaff = (XmlElement)makepart.SelectSingleNode("Staff"); // Same tag name, different place and purpose than makestaff below
+                makestaff.SetAttribute("id", (voice + 1).ToString());
+                outputscore.AppendChild(makepart); // Add new part
+            }
+
+
+            // Adding staves
+            for (int voice = 0; voice < this.voices; voice++)
+            {
+                // Building up the required structure
+                XmlElement makestaff = output.CreateElement("Staff");
+                makestaff.SetAttribute("id", (voice + 1).ToString());
+                XmlElement makemeasure = output.CreateElement("Measure");
+                XmlElement makevoice = output.CreateElement("voice");
+                XmlElement maketimesig = output.CreateElement("TimeSig");
+                XmlElement signtag = output.CreateElement("sigN"); // Will be set by WriteScore
+                XmlElement sigdtag = output.CreateElement("sigD");
+                sigdtag.InnerText = "4";
+                maketimesig.AppendChild(signtag);
+                maketimesig.AppendChild(sigdtag);
+                makevoice.AppendChild(maketimesig);
+                makemeasure.AppendChild(makevoice);
+                makestaff.AppendChild(makemeasure);
+
+                outputscore.AppendChild(makestaff);
+            }           
+        }
+
 
         // Write the score from the input
         public void WriteScore()
@@ -86,16 +132,16 @@ namespace MuseSynthesis
             int quarternotes = songlength / 32 + 1; // 32 128th notes fit in one quarter note
             for (int voice = 0; voice < voices; voice++) // Set the time signature for each voice (0-indexed as usual)
             {
-                XmlNode timesig = output.SelectSingleNode("/museScore/Score/Staff[@id='" + (voice + 1) + "']/Measure/voice/TimeSig");
+                XmlNode timesig = output.SelectSingleNode("/museScore/Score/Staff[@id='"+(voice+1)+"']/Measure/voice/TimeSig");
                 timesig.SelectSingleNode("sigN").InnerText = quarternotes.ToString();
             }
         }
 
-        // Adds element to the output
-        public void AppendChild(XmlElement appendum)
+        // Adds element to the specified voice in the output
+        public void AppendChild(XmlElement appendum, int voice)
         {
             XmlNode child = output.ImportNode(appendum, true); // Nodes must be created in the right context, but we can import it 
-            XmlNode outputnode = output.SelectSingleNode("/museScore/Score/Staff/Measure/voice"); // Navigate to the right place to write to
+            XmlNode outputnode = output.SelectSingleNode("/museScore/Score/Staff[@id='"+(voice+1)+"']/Measure/voice"); // Navigate to the right place to write to
             outputnode.AppendChild(child);
         }
 

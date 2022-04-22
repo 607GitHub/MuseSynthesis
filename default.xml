@@ -324,25 +324,5 @@
 				</Channel>
 			</Instrument>
 		</Part>
-		<Staff id="1">
-			<Measure>
-				<voice>
-					<TimeSig>
-						<sigN>1000</sigN>
-						<sigD>4</sigD>
-					</TimeSig>
-				</voice>
-			</Measure>
-		</Staff>
-		<Staff id="2">
-			<Measure>
-				<voice>
-					<TimeSig>
-						<sigN>1000</sigN>
-						<sigD>4</sigD>
-					</TimeSig>
-				</voice>
-			</Measure>
-		</Staff>
 	</Score>
 </museScore>

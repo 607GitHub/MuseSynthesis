@@ -24,7 +24,7 @@ namespace MuseSynthesis
             XmlElement tempotag = creator.CreateElement("tempo");
             tempotag.InnerText = (writer.tempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
             settempo.AppendChild(tempotag);
-            writer.AppendChild(settempo);
+            writer.AppendChild(settempo,0);
 
             int scribendum = restlength; // We will try to write rests as big as possible, for faster loading and easier reading
             XmlElement makerest = creator.CreateElement("Rest");
@@ -61,7 +61,7 @@ namespace MuseSynthesis
                         break;
                 }
                 durationtag.InnerText = restname;
-                writer.AppendChild(makerest);
+                writer.AppendChild(makerest,0);
                 scribendum -= (int)Math.Pow(2, log);
             }
  

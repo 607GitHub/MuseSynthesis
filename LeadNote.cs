@@ -55,7 +55,7 @@ namespace MuseSynthesis
             texttag.InnerText = tempotext; 
             settempo.AppendChild(tempotag);
             settempo.AppendChild(texttag);
-            writer.AppendChild(settempo);
+            writer.AppendChild(settempo,0);
 
             // Calculating the value that the individual notes have
             int log2div = (int)Math.Log2(tupletdiv[0]); // We have to round down to a power of 2

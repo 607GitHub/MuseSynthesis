@@ -2,19 +2,14 @@
 <museSynthesis>
 	<preference name ="displaytempos">false</preference>
 	<metaTag name ="arranger">607</metaTag>
-
+	<voices>4</voices>
 	<score>
 		<tempo>120</tempo>
 		<tuning>440</tuning>
 		<drum voice="0">35</drum>
-		<drum voice="1">35</drum>
 		<leadnote>
 			<note>C4</note>
 			<value>1/2</value>
-			<harmony>
-				<div>4</div> 
-				<harmdiv voice="1">2</harmdiv>
-			</harmony>
 		</leadnote>
 	</score>
 </museSynthesis>
