@@ -14,9 +14,8 @@ namespace MuseSynthesis
 
         int length; // Amount of tuplets
         double starttempo; // When not doing a portamento, this will remain the tempo
-        int drum; // What drum pitch to use
+        int[] drums; // What drum pitch to use for each voice
         int[] tupletdiv; // How many notes per 128th note
-        string notevalue;
 
         // Portamento effect
         bool portamento;
@@ -25,14 +24,13 @@ namespace MuseSynthesis
         double portfactor;
         bool outerportamento; // Whether this is the Tuplets spanning the entire leadnote; matters for the calculation
 
-        public Tuplets(ScoreWriter writer, int length, double starttempo, int drum, int[] tupletdiv, string notevalue, bool portamento, double mintempo, double maxtempo, bool outerportamento)
+        public Tuplets(ScoreWriter writer, int length, double starttempo, int[] drums, int[] tupletdiv, bool portamento, double mintempo, double maxtempo, bool outerportamento)
         {
             this.writer = writer;
             this.length = length;
             this.starttempo = starttempo;
-            this.drum = drum;
+            this.drums = drums;
             this.tupletdiv = tupletdiv;
-            this.notevalue = notevalue;
             this.portamento = portamento;
             this.mintempo = mintempo;
             this.maxtempo = maxtempo;
@@ -59,7 +57,7 @@ namespace MuseSynthesis
                         double targettempo = currenttempo * portfactor;
                         double newmin = Math.Min(currenttempo, targettempo);
                         double newmax = Math.Max(currenttempo, targettempo);
-                        Tuplets moretuplets = new Tuplets(writer, tupletratio, currenttempo, drum, tupletdiv, notevalue, true, newmin, newmax, false);
+                        Tuplets moretuplets = new Tuplets(writer, tupletratio, currenttempo, drums, tupletdiv, true, newmin, newmax, false);
                         moretuplets.Write();
                         continue; // If we let the lower Tuplets write, we shouldn't write here too
                     }
@@ -78,48 +76,54 @@ namespace MuseSynthesis
                 }
                 writer.AppendChild(settempo,0);
 
-                // Make lead tuplet
 
-                XmlElement maketuplet = creator.CreateElement("Tuplet");
-                XmlElement normalnotestag = creator.CreateElement("normalNotes");
-                normalnotestag.InnerText = tupletdiv[0].ToString();
-                XmlElement actualnotestag = creator.CreateElement("actualNotes");
-                actualnotestag.InnerText = tupletdiv[0].ToString();
-                XmlElement basenotetag = creator.CreateElement("baseNote");
-                basenotetag.InnerText = notevalue;
-                maketuplet.AppendChild(normalnotestag);
-                maketuplet.AppendChild(actualnotestag);
-                maketuplet.AppendChild(basenotetag);
-                writer.AppendChild(maketuplet,0);
-
-                // Write all notes for lead tuplet
-                for (int note = 0; note < tupletdiv[0]; note++)
+                // Make tuplets for lead and possibly tuplets or rests for harmony
+                for (int voice = 0; voice < writer.voices; voice++)
                 {
-                    XmlElement makechord = creator.CreateElement("Chord"); // Not sure why the tag is called chord, but following it here for consistency
-                    XmlElement durationtypetag = creator.CreateElement("durationType");
-                    durationtypetag.InnerText = notevalue;
-                    XmlElement makenote = creator.CreateElement("Note");
-                    XmlElement pitchtag = creator.CreateElement("pitch");
-                    pitchtag.InnerText = drum.ToString();
-                    makenote.AppendChild(pitchtag);
-                    makechord.AppendChild(durationtypetag);
-                    makechord.AppendChild(makenote);
-                    writer.AppendChild(makechord,0);
-                }
+                    if (tupletdiv[voice] == 0) // Rest; can't happen for voice 0 because then this wouldn't be a LeadNote
+                    {
+                        XmlElement makerest = creator.CreateElement("Rest");
+                        XmlElement durationtag = creator.CreateElement("durationType");
+                        durationtag.InnerText = "128th";
+                        makerest.AppendChild(durationtag);
 
-                XmlElement endtuplet = creator.CreateElement("endTuplet");
-                writer.AppendChild(endtuplet,0);
+                        writer.AppendChild(makerest, voice);
+                    }
+                    else // Write tuplet with correct division
+                    {
+                        // Tuplet values are based on the smallest note value greater than or equal to the effective value
+                        int basediv = (int)Math.Pow(2,(int)Math.Log2(tupletdiv[voice])); // So round down to the nearest power of 2
 
-                // Write harmony
-                for (int voice = 1; voice < writer.voices; voice++)
-                {
-                    // Write rest
-                    XmlElement makerest = creator.CreateElement("Rest");
-                    XmlElement durationtag = creator.CreateElement("durationType");
-                    durationtag.InnerText = "128th";
-                    makerest.AppendChild(durationtag);
+                        XmlElement maketuplet = creator.CreateElement("Tuplet");
+                        XmlElement normalnotestag = creator.CreateElement("normalNotes");
+                        normalnotestag.InnerText = basediv.ToString();
+                        XmlElement actualnotestag = creator.CreateElement("actualNotes");
+                        actualnotestag.InnerText = tupletdiv[voice].ToString();
+                        XmlElement basenotetag = creator.CreateElement("baseNote");
+                        basenotetag.InnerText = (128 * basediv)+"th";
+                        maketuplet.AppendChild(normalnotestag);
+                        maketuplet.AppendChild(actualnotestag);
+                        maketuplet.AppendChild(basenotetag);
+                        writer.AppendChild(maketuplet, voice);
 
-                    writer.AppendChild(makerest, voice);
+                        // Write all notes for tuplet
+                        for (int note = 0; note < tupletdiv[voice]; note++)
+                        {
+                            XmlElement makechord = creator.CreateElement("Chord"); // Not sure why the tag is called chord, but following it here for consistency
+                            XmlElement durationtypetag = creator.CreateElement("durationType");
+                            durationtypetag.InnerText = (128 * basediv) + "th";
+                            XmlElement makenote = creator.CreateElement("Note");
+                            XmlElement pitchtag = creator.CreateElement("pitch");
+                            pitchtag.InnerText = drums[voice].ToString();
+                            makenote.AppendChild(pitchtag);
+                            makechord.AppendChild(durationtypetag);
+                            makechord.AppendChild(makenote);
+                            writer.AppendChild(makechord, voice);
+                        }
+
+                        XmlElement endtuplet = creator.CreateElement("endTuplet");
+                        writer.AppendChild(endtuplet, voice);
+                    }
                 }
 
                 writer.CountIncrease(1);

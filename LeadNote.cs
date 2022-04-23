@@ -7,7 +7,7 @@ namespace MuseSynthesis
     {
         ScoreWriter writer; // So that we can access more general settings here
 
-        int drum; // What drum pitch to use
+        int[] drums; // What drum pitch to use for each voice
         int[] tupletdiv; // How many notes per 128th note for each voice (0 if rest)
         double notevalue;
 
@@ -27,7 +27,7 @@ namespace MuseSynthesis
         {
             this.writer = writer;
             this.note = note;
-            drum = writer.drums[0];
+            drums = writer.drums;
             notevaluetext = value; // We access this again in ActivateEffects
             notevalue = ReadNoteValue(notevaluetext);
 
@@ -57,13 +57,8 @@ namespace MuseSynthesis
             settempo.AppendChild(texttag);
             writer.AppendChild(settempo,0);
 
-            // Calculating the value that the individual notes have
-            int log2div = (int)Math.Log2(tupletdiv[0]); // We have to round down to a power of 2
-            int notevaluenumber = 128 * (int)Math.Pow(2, log2div);
-            string notevalue = notevaluenumber.ToString() + "th";
-
             // The Tuplets object will handle the rest of the writing for us
-            Tuplets tuplets = new Tuplets(writer, minlength, tempo, drum, tupletdiv, notevalue, portamento, mintempo, maxtempo, true);
+            Tuplets tuplets = new Tuplets(writer, minlength, tempo, drums, tupletdiv, portamento, mintempo, maxtempo, true);
             tuplets.Write();
         }
 
