@@ -61,7 +61,8 @@ namespace MuseSynthesis
                         break;
                 }
                 durationtag.InnerText = restname;
-                writer.AppendChild(makerest,0);
+                for (int voice = 0; voice < writer.voices; voice++)
+                    writer.AppendChild(makerest,voice);
                 scribendum -= (int)Math.Pow(2, log);
             }
  
