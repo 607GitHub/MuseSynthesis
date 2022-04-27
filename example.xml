@@ -1,183 +1,53 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <museSynthesis>
-	<preference name ="displaytempos">false</preference>
+	<preference name ="display3os">false</preference>
 	<metaTag name ="arranger">607</metaTag>
 	<voices>3</voices>
 	<score>
-		<tempo>140</tempo>
+		<tempo>120</tempo>
 		<tuning>440</tuning>
-		<drum voice="0">35</drum>
-		<drum voice="1">41</drum>
-		<drum voice="2">43</drum>
-		<leadnote>
-			<note>C4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">6</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
-		<leadnote>
-			<note>C4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">6</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
-		<leadnote>
-			<note>C4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">6</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
-		<leadnote>
-			<note>C4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">6</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
 
+		<drum voice="0">41</drum>
+		<drum voice="1">35</drum>
+		<velocity voice="1">125</velocity>
 		<leadnote>
-			<note>F4</note>
-			<value>1/16</value>
+			<note>E4</note>
+			<value>1/4</value>
 			<harmony>
 				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
+				<harmdiv voice="1">3</harmdiv>
 			</harmony>
 		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
+		<velocity voice="0">40</velocity>
+		<velocity voice="1">50</velocity>
 		<leadnote>
-			<note>F4</note>
-			<value>1/16</value>
+			<note>D#4</note>
+			<value>1/4</value>
 			<harmony>
 				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
+				<harmdiv voice="1">3</harmdiv>
 			</harmony>
 		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
+		<velocity voice="0">90</velocity>
 		<leadnote>
-			<note>F4</note>
-			<value>1/16</value>
+			<note>C#4</note>
+			<value>1/4</value>
 			<harmony>
 				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
+				<harmdiv voice="1">3</harmdiv>
 			</harmony>
 		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
+		<velocity voice="0">120</velocity>
 		<leadnote>
-			<note>F4</note>
-			<value>1/16</value>
+			<note>B3</note>
+			<value>1/4</value>
 			<harmony>
 				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
+				<harmdiv voice="1">3</harmdiv>
 			</harmony>
 		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
 		
-				<leadnote>
-			<note>G4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
-		<leadnote>
-			<note>G4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
-		<leadnote>
-			<note>G4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>1/16</value>
-		</leadrest>
-		<leadnote>
-			<note>G4</note>
-			<value>1/16</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadrest>
-			<value>5/16</value>
-		</leadrest>
 
-		<leadnote>
-			<note>C5</note>
-			<value>3/8</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-		</leadnote>
-		<leadnote>
-			<note>C5</note>
-			<value>1/8</value>
-			<harmony>
-				<div>4</div>
-				<harmdiv voice="1">5</harmdiv>
-				<harmdiv voice="2">3</harmdiv>
-			</harmony>
-			<effects>
-				<portamento>
-					<goalnote>C3</goalnote>
-				</portamento>
-			</effects>
-		</leadnote>
+
 	</score>
 </museSynthesis>

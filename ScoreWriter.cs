@@ -13,6 +13,7 @@ namespace MuseSynthesis
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
         public int[] drums { get; private set; } // The drum sounds for each voice to use
+        public int[] velocities { get; private set; } // The velocities for each voice to use (from 1 to 127, default 64)
         private int songlength; // Keeps track of the total length of the notes and rests written, to decide on the time signature
 
         public bool displaytempos { get; private set; } // Whether to let MuseScore display the extra tempo commands; looks messy, but better for debugging
@@ -100,10 +101,26 @@ namespace MuseSynthesis
                         break;
 
                     case "drum":
-                        int voice = int.Parse(current.GetAttribute("voice"));
-                        drums[voice] = int.Parse(current.InnerText);
-                        break;
+                        {   // Using code blocks allows reusing of variable names
+                            int voice = int.Parse(current.GetAttribute("voice"));
+                            drums[voice] = int.Parse(current.InnerText);
+                            break;
+                        }
 
+                    case "velocity":
+                        {   
+                            int voice = int.Parse(current.GetAttribute("voice")); 
+                            int velocity = int.Parse(current.InnerText);
+                            XmlElement makedynamic = output.CreateElement("Dynamic");
+                            XmlElement subtypetag = output.CreateElement("subtype");
+                            subtypetag.InnerText = velocity.ToString(); // Would normally be p, mp, etc, but we might as well be exact
+                            XmlElement velocitytag = output.CreateElement("velocity");
+                            velocitytag.InnerText = velocity.ToString();
+                            makedynamic.AppendChild(subtypetag);
+                            makedynamic.AppendChild(velocitytag);
+                            AppendChild(makedynamic, voice);
+                        break;
+                        }
                     case "leadnote":
                         {
                             string note = current.SelectSingleNode("note").InnerText;
