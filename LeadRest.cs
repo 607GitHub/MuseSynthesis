@@ -22,9 +22,9 @@ namespace MuseSynthesis
             // We set the tempo back to normal, to more easily get the right amount of rests
             XmlElement settempo = creator.CreateElement("Tempo");
             XmlElement tempotag = creator.CreateElement("tempo");
-            tempotag.InnerText = (writer.tempo / 60).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            tempotag.InnerText = (writer.tempo / 60.0).ToString(System.Globalization.CultureInfo.InvariantCulture);
             settempo.AppendChild(tempotag);
-            writer.AppendChild(settempo,0);
+            writer.AppendChild(settempo, 0);
 
             int scribendum = restlength; // We will try to write rests as big as possible, for faster loading and easier reading
             XmlElement makerest = creator.CreateElement("Rest");
@@ -62,10 +62,10 @@ namespace MuseSynthesis
                 }
                 durationtag.InnerText = restname;
                 for (int voice = 0; voice < writer.voices; voice++)
-                    writer.AppendChild(makerest,voice);
+                    writer.AppendChild(makerest, voice);
                 scribendum -= (int)Math.Pow(2, log);
             }
- 
+
             writer.CountIncrease(restlength);
         }
 
