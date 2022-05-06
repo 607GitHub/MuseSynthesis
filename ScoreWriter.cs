@@ -190,6 +190,12 @@ namespace MuseSynthesis
         // Update specified metaTags
         public void UpdateMetaTags()
         {
+            // Set creationDate
+            XmlNode creationdate = output.SelectSingleNode("/museScore/Score/metaTag[@name='creationDate']");
+            DateTime date = DateTime.Today;
+            string datestring = date.ToString("yyyy-MM-dd");
+            creationdate.InnerText = datestring;
+
             XmlNodeList metatags = output.SelectNodes("/museScore/Score/metaTag");
 
             for (int tag = 0; tag < metatags.Count; tag++) // Go through all metatags listed in default.xml
