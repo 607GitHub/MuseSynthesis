@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<museSynthesis>
-	<preference name ="display3os">false</preference>
-	<metaTag name ="arranger">607</metaTag>
+<musesynthesis>
+	<preference name ="displaytempos">false</preference>
+	<metatag name ="arranger">607</metatag>
 	<voices>3</voices>
 	<score>
 		<tempo>120</tempo>
@@ -50,4 +50,4 @@
 
 
 	</score>
-</museSynthesis>
+</musesynthesis>

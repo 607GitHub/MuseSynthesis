@@ -35,7 +35,7 @@ namespace MuseSynthesis
         // Reads required amount of voices and sets up parts and staves for them
         private void SetupVoices()
         {
-            XmlNode voices = input.SelectSingleNode("/museSynthesis/voices");
+            XmlNode voices = input.SelectSingleNode("/musesynthesis/voices");
             if (voices == null)
                 throw new ScoreWriterException("Please specify the amount of voices required.");
             this.voices = int.Parse(voices.InnerText);
@@ -83,7 +83,7 @@ namespace MuseSynthesis
             songlength = 0;
 
             // We will read through all commands from top to bottom
-            XmlNode scoreinput = input.SelectSingleNode("/museSynthesis/score");
+            XmlNode scoreinput = input.SelectSingleNode("/musesynthesis/score");
             IEnumerator inputenumerator = scoreinput.GetEnumerator();
             while (inputenumerator.MoveNext())
             {
@@ -167,7 +167,7 @@ namespace MuseSynthesis
             // Set default preferences
             displaytempos = false;
 
-            XmlNodeList preferences = input.SelectNodes("/museSynthesis/preference");
+            XmlNodeList preferences = input.SelectNodes("/musesynthesis/preference");
             foreach (XmlElement preferencetag in preferences)
             {
                 if (preferencetag.InnerText == "true")
@@ -202,8 +202,8 @@ namespace MuseSynthesis
             {
                 XmlElement metatag = (XmlElement)metatags[tag];
                 string setting = metatag.GetAttribute("name");
-                XmlNodeList test = input.SelectNodes("/museSynthesis/metaTag");
-                XmlNode target = input.SelectSingleNode("/museSynthesis/metaTag[@name='"+setting+"']"); // Select that metatag if it exists
+                XmlNodeList test = input.SelectNodes("/musesynthesis/metatag");
+                XmlNode target = input.SelectSingleNode("/musesynthesis/metatag[@name='"+setting+"']"); // Select that metatag if it exists
                 if (target != null)
                 {
                     metatags[tag].InnerText = target.InnerText;
