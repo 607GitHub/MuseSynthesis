@@ -7,7 +7,6 @@
 		<tempo>120</tempo>
 		<tuning>440</tuning>
 
-		<drum voice="0">41</drum>
 		<drum voice="1">35</drum>
 		<velocity voice="1">125</velocity>
 		<leadnote>

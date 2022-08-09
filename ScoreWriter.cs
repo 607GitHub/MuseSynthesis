@@ -27,7 +27,8 @@ namespace MuseSynthesis
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
             SetupVoices();
             drums = new int[voices];
-            drums[0] = 41; // Default drum; can be changed by command
+            for (int voice = 0; voice < voices; voice++)
+                drums[voice] = 41; // Default drum; can be changed by command
 
             SetPreferences();
         }
