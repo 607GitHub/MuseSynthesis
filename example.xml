@@ -7,7 +7,7 @@
 		<tempo>120</tempo>
 		<tuning>440</tuning>
 
-		<drum voice="1">35</drum>
+		<drum voice="1">43</drum>
 		<velocity voice="1">125</velocity>
 		<leadnote>
 			<note>E4</note>
@@ -17,6 +17,9 @@
 				<harmdiv voice="1">3</harmdiv>
 			</harmony>
 		</leadnote>
+		<rest>
+			<value>1/8</value>
+		</rest>
 		<velocity voice="0">40</velocity>
 		<velocity voice="1">50</velocity>
 		<leadnote>

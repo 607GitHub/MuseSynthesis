@@ -133,11 +133,11 @@ namespace MuseSynthesis
                             break;
                         }
 
-                    case "leadrest":
+                    case "rest":
                         { 
                         string value = current.SelectSingleNode("value").InnerText;
-                        LeadRest leadrest = new LeadRest(this, value);
-                        leadrest.Write();
+                        Rest rest = new Rest(this, value);
+                        rest.Write();
                         break;
                         }
 

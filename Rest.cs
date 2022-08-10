@@ -3,13 +3,13 @@ using System.Xml;
 
 namespace MuseSynthesis
 {
-    internal class LeadRest : NoteRest
+    internal class Rest : NoteRest
     {
         ScoreWriter writer;
         double restvalue;
         int restlength; // In 128th notes
 
-        public LeadRest(ScoreWriter writer, string value)
+        public Rest(ScoreWriter writer, string value)
         {
             this.writer = writer;
             restvalue = ReadNoteValue(value);
