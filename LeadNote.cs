@@ -170,7 +170,8 @@ namespace MuseSynthesis
                     throw new LeadNoteException("You entered an invalid alteration: " + alteration);
             }
             double frequencyratio = Math.Pow(2, (double)noteindex / 12);
-            return c1 * frequencyratio * Math.Pow(2, noteoctave - 1); // -1 because we've decided to start counting from c1, not c0
+            double frequency = c1 * frequencyratio * Math.Pow(2, noteoctave - 1); // -1 because we've decided to start counting from c1, not c0
+            return frequency;
         }
         
         // Calculates the tempo command to be set
