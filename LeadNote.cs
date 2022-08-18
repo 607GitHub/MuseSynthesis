@@ -97,7 +97,7 @@ namespace MuseSynthesis
             tupletdiv = new int[writer.voices];
             if (harmony == null) // If no harmony is presesnt
             {
-                tupletdiv[0] = 4; // Lead voice divided in 4 by default
+                tupletdiv[0] = writer.leaddiv; // Gets default div for lead
                 for (int voice = 1; voice < writer.voices; voice++) // The other voices shall rest
                     tupletdiv[voice] = 0;
                 return;

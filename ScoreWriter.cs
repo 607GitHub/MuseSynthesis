@@ -12,6 +12,7 @@ namespace MuseSynthesis
         public int voices { get; private set; } // Amount of voices
         public int tempo { get; private set; } // Current tempo
         public int a4tuning { get; private set; } // Frequency at which A4 should sound
+        public int leaddiv { get; private set; } // Default tuplet division for lead
         public int[] drums { get; private set; } // The drum sounds for each voice to use
         public int[] velocities { get; private set; } // The velocities for each voice to use (from 1 to 127, default 64)
         private int songlength; // Keeps track of the total length of the notes and rests written, to decide on the time signature
@@ -25,6 +26,7 @@ namespace MuseSynthesis
  
             tempo = 120; // Default effective tempo; can be changed by command
             a4tuning = 440; // Tuning of A4 in Hertz; can be changed by command
+            leaddiv = 4; // This default can be changed by command, can also be deviated from with the harmony tag
             SetupVoices();
             drums = new int[voices];
             for (int voice = 0; voice < voices; voice++)
@@ -122,6 +124,9 @@ namespace MuseSynthesis
                             AppendChild(makedynamic, voice);
                         break;
                         }
+                    case "leaddiv":
+                        leaddiv = int.Parse(current.InnerText);
+                        break;
                     case "leadnote":
                         {
                             string note = current.SelectSingleNode("note").InnerText;

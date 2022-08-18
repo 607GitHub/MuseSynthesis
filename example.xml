@@ -9,6 +9,7 @@
 		<drum voice="0">41</drum>
 		<drum voice="1">43</drum>
 		<drum voice="2">35</drum>
+		<leaddiv>3</leaddiv>
 		<leadnote>
 			<note>G3</note>
 			<value>1/4</value>

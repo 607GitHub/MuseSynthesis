@@ -61,21 +61,27 @@ Default: 440. Sets the tuning of A4, specified in Hertz. Example:
 <a4tuning>435</a4tuning>
 ```
 Sets the current tuning of A4 to 435Hz. All other notes update accordingly.
-#### 4.2.3 `<drum>`
+#### 4.2.3 `<leaddiv>`
+Default: 4. Sets the tuplet division that will be used for notes by default. Example:
+```
+<leaddiv>3</leaddiv>
+```
+Sets the default division to triplets.
+#### 4.2.4 `<drum>`
 Default: 41; requires `voice` attribute. Sets the drum used by this voice. For a list of drums that have been used to some success, see [5.1](#51-useful-drum-sounds). Example:
 ```
 <drum voice="1">43</drum>
 ```
 Sets the drum used for the second voice (voices are 0-indexed) to 43, corresponding to High Floor Tom.
-#### 4.2.4 `<velocity>`
+#### 4.2.5 `<velocity>`
 Default: 80; requires `voice` attribute. Sets the velocity used by this voice. Numbers from 1 to 127 have an effect (outside that there is no change). For an overview of elements from MuseScore's Dynamics palette and corresponding numerical velocities, see 5.1. Example:
 ```
 <velocity voice="0">112</voice>
 ```
 Sets the velocity for the first voice to 112, corresponding to ff.
-#### 4.2.5 `<leadnote>`
+#### 4.2.6 `<leadnote>`
 Used to make sounds. See [4.3](#43-child-elements-of-leadnote).
-#### 4.2.6 `<rest>`
+#### 4.2.7 `<rest>`
 Used to introduce rests (no voices playing). Must include a `<value>` element that specifies the desired rest value. Example:
 ```
 <leadrest>
