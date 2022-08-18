@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "MuseSynthesis": {
-      "commandName": "Project"//,
-      //"commandLineArgs": "G:\\input.xml output"
-    }
-  }
-}
