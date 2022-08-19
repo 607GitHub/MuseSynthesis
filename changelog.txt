@@ -1,0 +1,9 @@
+This changelog does not adhere to semantic versioning (because there is no API).
+
+v1.0.1 - 2022-08-19
+Add 'How to install MuseSynthesis', 'How to contribute' and table of contents to readme
+Make changelog
+Add readme and changelog to build
+
+v1.0.0 - 2022-08-18
+First binary release
