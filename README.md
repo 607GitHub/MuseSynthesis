@@ -51,7 +51,7 @@ If you want the very latest version, you can also clone the `master` branch with
 
 ## 3 How to contribute
 If you want to contribute to the development of MuseSynthesis, feel free to make pull requests or create issues. This is one of several hobby projects of mine, though, and I cannot guarantee that I will get to your work.
-You can also help out by simply using the program and sharing your thoughts, or by testing the MuseScore synthesizer in combination with the program and keeping track of findings. To get into contact with me, email me at 607?607web.nl.
+You can also help out by simply using the program and sharing your thoughts, or by testing the MuseScore synthesizer in combination with the program and keeping track of findings. To get into contact with me, email me at 607?607web.nl (replace question mark with at sign).
 
 ## 4 How to use MuseSynthesis
 MuseSynthesis is a console program. When run without additional arguments (e.g. by double-clicking it), MuseSynthesis will process a file called `example.xml` as input and output an uncompressed MuseScore file (\*.mscx) with the date and time of creation as filename. This output file can be opened in MuseScore for playback, rendering, et cetera, and can also be saved as a compressed MuseScore file (\*.mscz).  
